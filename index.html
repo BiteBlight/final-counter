@@ -35,7 +35,7 @@
       }
 
       .img {
-        width: 500px;
+        width: 50vh;
         aspect-ratio: 1;
         transition: all 0.3s ease;
         position: relative;
@@ -52,14 +52,14 @@
       .img-before {
         background-image: url("centerpic.png");
         background-size: cover;
-        width: 500px;
+        width: 50vh;
         aspect-ratio: 1;
         position: absolute;
       }
 
       .img-after {
         background-image: url("gone.png");
-        width: 500px;
+        width: 50vh;
         background-size: cover;
         aspect-ratio: 1;
         position: absolute;
@@ -73,6 +73,9 @@
       .img:hover > .img-after {
         opacity: 1;
       }
+      h3 {
+        padding-top: 1rem;
+      }
     </style>
   </head>
   <body>
@@ -80,15 +83,23 @@
       <div class="img-before"></div>
       <div class="img-after"></div>
     </div>
+    <h3>
+      You helped destroy something that meant everything to me. I have few
+      things I promised to do, then when the counter hits 0, it'll be the end of
+      me, whether I finish them or not. I would say I'll miss you, but at this
+      point I'm starting to doubt the after life. If you need help with anything
+      tho, feel free to ask :D
+    </h3>
+
     <h1 id="countdown">
-      <span id="years" class="count-part">--</span> years,
+      I have about <span id="years" class="count-part">--</span> years,
       <span id="months" class="count-part">--</span> months,
       <span id="days" class="count-part">--</span> days and
       <span id="hours" class="count-part">--</span>:<span
         id="minutes"
         class="count-part"
         >--</span
-      >:<span id="seconds" class="count-part">--</span> until it's done
+      >:<span id="seconds" class="count-part">--</span> left
     </h1>
 
     <script>
