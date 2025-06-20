@@ -64,6 +64,7 @@
         aspect-ratio: 1;
         position: absolute;
         opacity: 0;
+        cursor: pointer;
       }
 
       .img:hover > .img-before {
@@ -79,7 +80,7 @@
     </style>
   </head>
   <body>
-    <div class="img">
+    <div id="video-container" class="img" onclick="replaceWithEmbed()">
       <div class="img-before"></div>
       <div class="img-after"></div>
     </div>
@@ -106,6 +107,11 @@
       const targetDate = new Date("2030-01-01T00:00:00");
       const parts = ["years", "months", "days", "hours", "minutes", "seconds"];
       let lastValues = {};
+
+      function replaceWithEmbed() {
+        const container = document.getElementById("video-container");
+        container.outerHTML = `<iframe width="695" height="391" src="https://www.youtube.com/embed/GCGZbl6qw0E" title="&quot;I'm paying someone to do it.&quot;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+      }
 
       function updateCountdown() {
         const now = new Date();
