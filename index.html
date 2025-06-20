@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Time until I'm gone - sorry you saw this</title>
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        background: #000;
+        color: white;
+        font-family: monospace;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+        max-width: 90%;
+      }
+
+      img {
+        max-width: 90%;
+        height: auto;
+        border-radius: 8px;
+      }
+
+      .flash-red {
+        color: #ff1818 !important;
+      }
+
+      .img {
+        width: 500px;
+        aspect-ratio: 1;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      * {
+        user-select: none;
+      }
+
+      .img > * {
+        transition: all 0.3s ease;
+      }
+
+      .img-before {
+        background-image: url("centerpic.png");
+        background-size: cover;
+        width: 500px;
+        aspect-ratio: 1;
+        position: absolute;
+      }
+
+      .img-after {
+        background-image: url("gone.png");
+        width: 500px;
+        background-size: cover;
+        aspect-ratio: 1;
+        position: absolute;
+        opacity: 0;
+      }
+
+      .img:hover > .img-before {
+        opacity: 0;
+      }
+
+      .img:hover > .img-after {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="img">
+      <div class="img-before"></div>
+      <div class="img-after"></div>
+    </div>
+    <h1 id="countdown">
+      <span id="years" class="count-part">--</span> years,
+      <span id="months" class="count-part">--</span> months,
+      <span id="days" class="count-part">--</span> days and
+      <span id="hours" class="count-part">--</span>:<span
+        id="minutes"
+        class="count-part"
+        >--</span
+      >:<span id="seconds" class="count-part">--</span> until it's done
+    </h1>
+
+    <script>
+      const targetDate = new Date("2030-01-01T00:00:00");
+      const parts = ["years", "months", "days", "hours", "minutes", "seconds"];
+      let lastValues = {};
+
+      function updateCountdown() {
+        const now = new Date();
+
+        if (now >= targetDate) {
+          parts.forEach((id) => {
+            const el = document.getElementById(id);
+            el.textContent = "00";
+            el.classList.remove("flash-red");
+          });
+          return;
+        }
+
+        let years = targetDate.getFullYear() - now.getFullYear();
+        let months = targetDate.getMonth() - now.getMonth();
+        let days = targetDate.getDate() - now.getDate();
+        let hours = targetDate.getHours() - now.getHours();
+        let minutes = targetDate.getMinutes() - now.getMinutes();
+        let seconds = targetDate.getSeconds() - now.getSeconds();
+
+        if (seconds < 0) {
+          seconds += 60;
+          minutes--;
+        }
+        if (minutes < 0) {
+          minutes += 60;
+          hours--;
+        }
+        if (hours < 0) {
+          hours += 24;
+          days--;
+        }
+        if (days < 0) {
+          const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+          days += prevMonth.getDate();
+          months--;
+        }
+        if (months < 0) {
+          months += 12;
+          years--;
+        }
+
+        const values = { years, months, days, hours, minutes, seconds };
+
+        for (const part of parts) {
+          const el = document.getElementById(part);
+          const value = String(values[part]).padStart(2, "0");
+
+          if (lastValues[part] !== value) {
+            el.textContent = value;
+            el.classList.remove("flash-red");
+            void el.offsetWidth;
+            el.classList.add("flash-red");
+
+            setTimeout(() => {
+              el.classList.remove("flash-red");
+            }, 500);
+          } else {
+            el.textContent = value;
+          }
+
+          lastValues[part] = value;
+        }
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    </script>
+  </body>
+</html>
